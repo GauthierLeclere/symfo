@@ -1,0 +1,220 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+    <h1 class="h3 mb-2 text-gray-800">Produits</h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary d-inline">Filtres : </h6>
+
+            <select class="custom-select custom-select-sm d-inline col-2">
+                <option selected>Catégorie</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            
+            <select class="custom-select custom-select-sm d-inline col-2">
+                <option selected>Marque</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            
+            <select class="custom-select custom-select-sm d-inline col-2">
+                <option selected>Stock</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+            
+            <button id="create_product" type="button" class="btn btn-info btn-icon-split btn-sm float-right">
+                <span class="icon text-white-50">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="text">Ajouter un produit</span>
+            </button>
+
+        </div>
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Référence</th>
+                            <th>Visuel</th>
+                            <th>Catégories</th>
+                            <th>Nom</th>
+                            <th>Désignation</th>
+                            <th>Prix HT</th>
+                            <th>Stock</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal create product  -->
+    <div id="create_product_modal" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Créer un produit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button id="save_create_product" type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script>
+        $(document).ready(function(){
+
+            var table = $('#dataTable').DataTable({
+                "columnDefs": [
+                    { "data": "id", "targets": 0 },
+                    { "data": "reference", "targets": 1 },
+                    { "data": "visuel",  "width": "auto", "targets": 2, 
+                        "render": function (data, type, row, meta) {
+                            let html = '';
+                            if(data){
+                                html += '<img src="' + data + '" class="img-responsive" width="25px">';
+                            }
+                            return html;
+                        }
+                    },
+                    { "data": "categories", "targets": 3,
+                        "render": function(data, type, row, meta){
+                            let arr = $.parseJSON(data);
+                            let title = '';
+                            if(typeof  arr[0] !== 'undefined' ){
+                                title = arr[0]['title'];
+                            }
+                            return title;
+                        }
+                    },
+                    { "data": "nom", "targets": 4 },
+                    { "data": "designation", "targets": 5 },
+                    { "data": "prixHt", "targets": 6 },
+                    { "data": "stock", "targets": 7 },
+                    { "data": "action", "targets": 8 , "orderable" : false,
+                        "render": function (data,type, row, meta){
+                            let html = '';
+                            html += '<div class="btn-group btn-group-sm" role="group" aria-label="action">';
+                            html +=     '<a href="'+ Routing.generate('product_show', {"id" : row["id"]} ) +'" class="btn btn-success"><i class="fa fa-eye"></i></button >';
+                            html +=     '<a href="' + Routing.generate('product_edit', { "id": row["id"] }) +'" class="btn btn-info"><i class="fa fa-edit"></i></button>';
+                            html +=     '<a href="" class="btn btn-danger delete-product"><i class="fa fa-trash"></i></button>';
+                            html += '</div >';
+                            return html;
+                        }
+                    },
+                ],
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url":  Routing.generate('product_liste_charger'),
+                    "type": 'POST'
+                },
+                "paging": true,
+                "info": true,
+                "searching": true,
+                "responsive": true,
+                "pageLength": 25,
+                "order": [[0, 'asc']],
+                 createdRow: function (row, data, dataIndex) {
+                     $(row).attr('data-productid', data.id);
+                 }
+            });
+            
+
+            $(document).on('click', '.delete-product', function(e){
+                e.preventDefault();
+
+                if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+                    let button = $(this);
+
+                    // Loader on button
+                    loaderButton(button);
+
+                    $productId = $(this).parents('tr').attr('data-productid');
+
+                    $deleteRoute = Routing.generate('product_delete_ajax', { 'id': $productId });
+                    fetch($deleteRoute, {
+                        method: "POST",
+                    }).then(function (response) {
+                        response.json()
+                            .then(function (value) {
+                                if (value.valid) {
+                                    unLoaderButton(button, 'trash');
+                                    table.draw();
+                                }
+                            });
+                    });
+                }
+            });
+
+            // Ajout de produit via modal
+            $('#create_product').on('click', function(){
+                $deleteRoute = Routing.generate('product_new_modal');
+                fetch($deleteRoute, {
+                    method: "POST",
+                }).then(function (response) {
+                    $('#create_product_modal .modal-body').empty();
+                    response.text()
+                        .then(function (value) {
+                            $('#create_product_modal .modal-body').append(value);
+                            $('#create_product_modal').modal('show');
+                        });
+                });                
+            });
+
+            // Sauvegarde du produit
+            $(document).on('click', '#save_create_product', function () {
+                let form = $('form[name="product"]');
+                let formData = form.serialize();
+                let button = $(this);
+
+                loaderButton(button);
+                fetch(Routing.generate('product_new_modal'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData
+                }).then(function (response) {
+                    if (response.headers.get("content-type").indexOf("application/json") !== -1) {
+                        response.json()
+                            .then(function (value) {
+                                if (value.valid) {
+                                    $('#create_product_modal').modal('hide');
+                                    table.draw();
+                                }
+                            });
+                    } else {
+                        response.text()
+                            .then(function (value) {
+                                $('#create_product_modal .modal-body').empty();
+                                $('#create_product_modal .modal-body').append(value);
+                                unLoaderButton(button);
+                            });
+                    }
+                });
+            });
+            
+            
+        });
+    </script>
+{% endblock %}

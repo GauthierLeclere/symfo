@@ -1,0 +1,24 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}New Product{% endblock %}
+
+{% block body %}
+<!-- Page Heading -->
+<h1 class="h3 mb-4 text-gray-800">Créer un nouveau produit</h1>
+
+{{ include('Admin/product/_form.html.twig') }}
+
+<a href="{{ path('product_index') }}">Liste des produits</a>
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('admin') }}
+
+<script>
+    $(document).ready(function () {
+        console.log('test');
+    });
+</script>
+{% endblock %}

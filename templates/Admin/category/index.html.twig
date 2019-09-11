@@ -1,0 +1,15 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+<h1 class="h3 mb-2 text-gray-800">Catégories</h1>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Catégories</h6>
+    </div>
+    {{htmlTree|raw}}
+    {{tree|raw}}
+</div>
+
+{% endblock %}

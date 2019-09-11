@@ -1,0 +1,57 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Hello DashboardControllerPhpController!{% endblock %}
+{% block body %}
+    <h1>Product</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ product.reference }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ product.nom }}</td>
+            </tr>
+            <tr>
+                <th>Designation</th>
+                <td>{{ product.designation }}</td>
+            </tr>
+            <tr>
+                <th>PrixHt</th>
+                <td>{{ product.prixHt }}</td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td>{{ product.stock }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ product.dateCreation ? product.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateModification</th>
+                <td>{{ product.dateModification ? product.dateModification|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+
+            <tr>
+                <td>
+                    {% if product.image %}
+                        <img src="{{vich_uploader_asset(product, 'imageFile')}}" alt="">
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('product_index') }}">back to list</a>
+
+    <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+
+    {{ include('Admin/product/_delete_form.html.twig') }}
+{% endblock %}

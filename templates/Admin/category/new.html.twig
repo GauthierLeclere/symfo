@@ -1,0 +1,19 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+<h1 class="h3 mb-2 text-gray-800">Produits</h1>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary d-inline">Liste des produits</h6>
+    </div>
+    {{form_start(form)}}
+    {{form_widget(form)}}
+    <input type="submit">
+    {{form_end(form)}}
+</div>
+
+
+{% endblock %}
+
