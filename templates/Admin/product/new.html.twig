@@ -1,8 +1,22 @@
 {% extends 'adminBase.html.twig' %}
 
+
+{% form_theme form _self %}
+
+{% use 'bootstrap_4_layout.html.twig' with form_label as base_form_label %}
+
+{% block form_label %}
+    {{ block('base_form_label') }}
+
+    {% if required %}
+        <span class="required" title="This field is required">*</span>
+    {% endif %}
+{% endblock %}
+
 {% block title %}New Product{% endblock %}
 
 {% block body %}
+
 <!-- Page Heading -->
 <h1 class="h3 mb-4 text-gray-800">Créer un nouveau produit</h1>
 

@@ -1,4 +1,33 @@
 {{ form_start(form) }}
-    {{form_label(form.reference)}}
-    {{form_widget(form.reference)}}
+    <div class="row">
+        <div class="col-12">
+            {{form_label(form.categories)}}
+            {{form_widget(form.categories)}}
+        </div>
+        <div class="col-6">
+            {{form_label(form.reference)}}
+            {{form_widget(form.reference)}}
+        </div>
+        <div class="col-6">
+            {{form_label(form.nom)}}
+            {{form_widget(form.nom)}}
+        </div>
+        <div class="col-12">
+            {{form_label(form.designation)}}
+            {{form_widget(form.designation)}}
+        </div>
+        <div class="col-6">
+            {{form_label(form.prixHt)}}
+            {{form_widget(form.prixHt)}}
+        </div>
+        <div class="col-6">
+            {{form_label(form.stock, 'Quantité en stock')}}
+            {{form_widget(form.stock)}}
+        </div>
+        <div class="col-12">
+            {{form_label(form.imageFile, 'Visuel du produit')}}
+            {{form_widget(form.imageFile)}}
+        </div>
+    </div>
+
 {{ form_end(form) }}
