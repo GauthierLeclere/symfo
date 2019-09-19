@@ -1,0 +1,43 @@
+{% macro clientAdresseItem(item) %}
+    <fieldset class="form-group">
+        <div id="{{ item.vars.id }}">
+            <div class="row my-1">
+                <div class="col-md-12">
+                    {{ form_widget(item.adresseType, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>
+            </div>
+            <div class="row my-1">
+                <div class="col-md-12">
+                    {{ form_widget(item.voie, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>
+            </div>
+            <div class="row my-1">
+                <div class="col-12">
+                    {{ form_widget(item.complement, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>
+            </div>
+            <div class="row my-1">
+                <div class="col-md-6">
+                    {{ form_widget(item.codePostal, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_widget(item.boitePostale, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>
+            </div>
+            <div class="row my-1">
+                <div class="col-md-4">
+                    {{ form_widget(item.region, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>        <div class="col-4">
+                    {{ form_widget(item.departement, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>        <div class="col-4">
+                    {{ form_widget(item.ville, { 'attr': {'class': 'form-control-sm'} }) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form_widget(item.pays, { 'attr': {'class': 'form-control-sm'} }) }}        
+                </div>  
+            </div>
+        </div>
+    </fieldset>
+{% endmacro %}

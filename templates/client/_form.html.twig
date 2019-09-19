@@ -1,0 +1,61 @@
+{{ form_start(form) }}
+
+<div class="row">
+    <div class="col-6">
+        {{form_label(form.nom)}}
+        {{form_widget(form.nom)}}
+    </div>
+    <div class="col-6">
+        {{form_label(form.prenom)}}
+        {{form_widget(form.prenom)}}
+    </div>
+</div>
+
+    {% for adresse in form.adresses %}
+    <div class="form-group">
+        <label class="col-md-3 label-control">
+            Adresse du client
+        </label>
+        <div class="row my-1">
+            <div class="col-md-12">
+                {{ form_widget(adresse.children.adresseType, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md-12">
+                {{ form_widget(adresse.children.voie, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-12">
+                {{ form_widget(adresse.children.complement, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md-6">
+                {{ form_widget(adresse.children.codePostal, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(adresse.children.boitePostale, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>
+        </div>
+        <div class="row my-1">
+            <div class="col-md-4">
+                {{ form_widget(adresse.children.region, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>        <div class="col-4">
+                {{ form_widget(adresse.children.departement, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>        <div class="col-4">
+                {{ form_widget(adresse.children.ville, { 'attr': {'class': 'form-control-sm'} }) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_widget(adresse.children.pays, { 'attr': {'class': 'form-control-sm'} }) }}        
+            </div>  
+        </div>
+
+{% endfor %}
+</div>
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

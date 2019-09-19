@@ -14,7 +14,7 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/product")
+ * @Route("/admin/product")
  */
 class ProductController extends AbstractController
 {
@@ -81,7 +81,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="product_show", methods={"GET"}, options={"expose"=true})
+     * @Route("/show/{id}", name="product_show", methods={"GET"}, options={"expose"=true})
      */
     public function show(Product $product): Response
     {
@@ -141,7 +141,7 @@ class ProductController extends AbstractController
 
 
     /**
-     * @Route("/liste-charger", name="product_liste_charger", options={"expose"=true})
+     * @Route("/liste-charger", name="product_liste_datatable", options={"expose"=true})
      */
     public function indexAction(Request $request, ProductRepository $productRepository, UploaderHelper $helper, SerializerInterface $serializer) {
 

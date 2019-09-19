@@ -1,0 +1,48 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Edit Client{% endblock %}
+
+{% block body %}
+
+{% form_theme form 'jquery.collection.html.twig' %}
+
+{% block AddressType_row %}
+<div class="col-md-3">
+  {{ form_label(form) }}
+  {{ form_errors(form) }}
+  {{ form_widget(form) }}
+</div>
+{% endblock %}
+
+{% block AddressType_widget %}
+    {{ form_widget(form) }}
+    <br/>
+    <p class="text-center">
+        <a href="#" class="collection-up btn btn-default">&lt;</a>
+        <a href="#" class="collection-remove btn btn-default">-</a>
+        <a href="#" class="collection-add btn btn-default">+</a>
+        <a href="#" class="collection-down btn btn-default">&gt;</a>
+    </p>
+{% endblock %}
+
+    <h1>Edit Client</h1>
+
+    {{ include('client/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('client_index') }}">back to list</a>
+
+    {{ include('client/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $('.adresses_collection').collection({
+         up: '<a href="#">&#x25B2;</a>',
+         down: '<a href="#">&#x25BC;</a>',
+         add: '<a href="#">[ + ]</a>',
+         remove: '<a href="#">[ - ]</a>',
+         duplicate: '<a href="#">[ # ]</a>'
+     });
+    </script>
+{% endblock %}

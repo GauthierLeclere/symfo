@@ -10,6 +10,8 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.js';
 import 'datatables.net-buttons/js/dataTables.buttons.js';
 
+import 'symfony-collection/jquery.collection.js';
+
 // window.FontAwesomeConfig = { autoReplaceSvg: 'yes' }
 
 global.$ = global.jQuery = $;

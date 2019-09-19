@@ -1,0 +1,62 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}New Client{% endblock %}
+
+{% block body %}
+
+{% form_theme form 'jquery.collection.html.twig' %}
+
+    <h1>Create new Client</h1>
+
+{% import "client/macros/prototype.html.twig" as prototype %}
+
+{{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-6">
+            {{form_widget(form.nom, { 'attr': {'class': 'form-control-sm'} }) }}
+        </div>
+        <div class="col-6">
+            {{form_widget(form.prenom, { 'attr': {'class': 'form-control-sm'} }) }}
+        </div>
+    </div>
+
+    <fieldset class="form-group">
+        {{ form_label(form.adresses) }}
+        <div id="client_adresses" class="adresses_collection" data-prototype="{{ prototype.clientAdresseItem(form.adresses.vars.prototype)|e }}">
+            {% for widget in form.adresses %}
+                {{ prototype.clientAdresseItem(widget) }}
+            {% endfor %}
+        </div>
+    </fieldset>
+
+    <div class="row">
+        <div class="col-md-12">
+            {{form_label(form.commentaire)}}
+            {{form_widget(form.commentaire)}}
+        </div>
+    </div>
+
+    <div class="row flex justify-content-start flex-wrap">
+      {% for picture in client.pictures %}
+        <div class="col" style="width: 100px; flex: none; margin: 5px;">
+          <img src="{{ vich_uploader_asset(picture, 'imageFile')|imagine_filter('thumb') }}" width="100" alt="">
+          {# <a href="{{ path('admin.picture.delete', {id: picture.id}) }}" class="btn btn-danger" data-delete data-token="{{ csrf_token('delete' ~ picture.id) }}">Supprimer</a> #}
+        </div>
+      {% endfor %}
+    </div>
+
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+    <a href="{{ path('client_index') }}">back to list</a>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $('.adresses_collection').collection({
+             name_prefix : '{{ form.adresses.vars.prototype.vars.full_name }}',
+        });
+    </script>
+{% endblock %}
