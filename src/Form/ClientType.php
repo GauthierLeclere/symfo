@@ -43,7 +43,9 @@ class ClientType extends AbstractType
                     'class' => 'adresses_collection',
                 ]
             ])
-            ->add('commentaire', TextareaType::class)
+            ->add('commentaire', TextareaType::class, [
+                'required' => false,
+            ])
             ->add('pictureFiles', FileType::class, [
                 'required' => false,
                 'multiple' => true

@@ -37,13 +37,10 @@
         </div>
     </div>
 
-    <div class="row flex justify-content-start flex-wrap">
-      {% for picture in client.pictures %}
-        <div class="col" style="width: 100px; flex: none; margin: 5px;">
-          <img src="{{ vich_uploader_asset(picture, 'imageFile')|imagine_filter('thumb') }}" width="100" alt="">
-          {# <a href="{{ path('admin.picture.delete', {id: picture.id}) }}" class="btn btn-danger" data-delete data-token="{{ csrf_token('delete' ~ picture.id) }}">Supprimer</a> #}
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_row(form.pictureFiles)}}
         </div>
-      {% endfor %}
     </div>
 
 <button class="btn">{{ button_label|default('Save') }}</button>
